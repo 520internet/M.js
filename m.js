@@ -290,7 +290,7 @@
 			 * @param string number;
 			 * @return boolean;
 			 **/
-			floatNumber : function(float){
+			floatNumber : function(number){
 				return false;
 			},
 			
@@ -300,8 +300,16 @@
 			 * @return boolean;
 			 **/
 			datetime : function(datetime){
+				if (datetime.type == 'datetime'){
+					
+				} else if(datetime.type == 'date') {
+					
+				} else if(datetime.type == 'time'){
+					
+				}
 				return false;
 			}
+			
 		},
 		
 		/**
@@ -988,6 +996,7 @@
 				*/
 			},
 		},
+		
 		string : {
 			lastUpdate : '2016-4-14 23:51:19',
 			
@@ -1208,7 +1217,6 @@
 			 * @return array;
 			 **/
 			hex2hsv : function(hex) {
-				
 			},
 			
 			/**
