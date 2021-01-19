@@ -5,7 +5,7 @@
  * 以下部分代码片段来源于网络！你可以自由复制拷贝使用！
  * https://github.com/520internet/m.js
  **/
-(function(){
+(function(window){
 	"use strict";
 	var M = {
 		debug : function(){
@@ -16,7 +16,7 @@
 			console.log(window.location);
 			console.log(window.navigator);
 		},
-		
+
 		/**
 		 * 加载外部 javascript 脚本，主要针对存在依赖的方法 *M* 此处未测试
 		 * @param string filepath, 文件路径;
@@ -35,7 +35,7 @@
 			script.src = config.cache ? filepath+'?r='+Math.random() : filepath;
 			head.appendChild(script);
 		},
-		
+
 		/**
 		 * 选择器
 		 * @param string id, DOM ID;
@@ -56,12 +56,12 @@
 				return document.getElementsByClassName(className);
 			}
 		},
-		
+
 		// 客户端
 		client : {
 			lastUpdate : '2016-04-21 22:58:47',
 			userAgent : navigator.userAgent.toLowerCase(),
-			
+
 			/**
 			 * 设备
 			 * @return object, {'tag': '小写标签', 'name': '名称'};
@@ -70,7 +70,7 @@
 				// arguments
 				var device = { 'tag': 'other', 'name': 'Other' },
 					userAgent = M.client.userAgent;
-				
+
 				if (userAgent.indexOf('windows') != -1){
 					device = { 'tag': 'pc', 'name': 'PC' };
 				} else if(userAgent.indexOf('ipad') != -1) {
@@ -86,7 +86,7 @@
 				}
 				return device;
 			},
-			
+
 			// 系统
 			system : {
 				/**
@@ -96,7 +96,7 @@
 				type : function(){
 					var type = 'other',
 						userAgent = M.client.userAgent;
-					
+
 					if (userAgent.indexOf('windows') != -1){
 						type = 'windows';
 					} else if(userAgent.indexOf('mac os') != -1) {
@@ -110,7 +110,7 @@
 					}
 					return type;
 				},
-				
+
 				/**
 				 * 位
 				 * @return string;
@@ -123,13 +123,13 @@
 					}
 					return bit;
 				},
-				
+
 				/**
 				 * 系统名称
 				 * @return object, {'tag': '小写标签', 'name': '名称'};
 				 **/
 				name : function(){
-					/** 
+					/**
 					 * 还有 Win32 | Windows95 | Windows 97 | Windows 98 | Windows Me | Windows XP | Windows7 | Windows8 | Windows NT | Windows Server 2000 | Windows Server 2003 | Windows Server 2008 | Windows Server 2012
 					 * FreeBSD | CentOS | RedHat | Ubuntu | Fedora
 					 **/
@@ -155,27 +155,28 @@
 					return system;
 				}
 			},
-			
+
 			// 浏览器
 			browser : {
 				lastUpdate : '2016-4-24 14:21:09',
-				
+
 				// 浏览器语言
 				language : {
 					lastUpdate : '2016-4-14 23:50:49',
 					language : navigator.browserLanguage ? navigator.browserLanguage : navigator.language,
 					name : function(){
-						var name = M.client.browser.language.language.toLowerCase().split('-');
+            var _this = this;
+						var name = this.language.toLowerCase().split('-');
 						return name[0];
 					},
 					country : function(){
-						
+
 					},
 					redirect : function(language){
 						return false;
 					},
 				},
-				
+
 				// IE(Trident)\Chrome(Webkit)\FireFox(Gecko)\Safari(Webkit)\Opera(Blink)
 				/**
 				 * 名称
@@ -229,7 +230,7 @@
 					}
 					return browser;
 				},
-				
+
 				// 头信息
 				header : function(){
 					var req = new XMLHttpRequest();
@@ -240,11 +241,11 @@
 				}
 			},
 		},
-		
+
 		// 正则
 		regexp : {
 			lastupdate : '2016-4-28 01:16:32',
-			
+
 			/**
 			 * IP验证
 			 * @param string ip;
@@ -262,7 +263,7 @@
 				 */
 				return !!ip.match(/^((25[0-5]|2[0-4]\d|[01]?\d\d?)($|(?!\.$)\.)){4}$/);
 			},
-			
+
 			/**
 			 * 域名验证
 			 * @param string domain;
@@ -271,7 +272,7 @@
 			domain : function(domain){
 				return false;
 			},
-			
+
 			/**
 			 * 邮箱验证
 			 * @param string email;
@@ -284,7 +285,7 @@
 				}
 				return false;
 			},
-			
+
 			/**
 			 * 浮点验证
 			 * @param string number;
@@ -293,7 +294,7 @@
 			floatNumber : function(number){
 				return false;
 			},
-			
+
 			/**
 			 * 日期格式验证
 			 * @param string date; yyyy-MM-dd
@@ -301,35 +302,35 @@
 			 **/
 			datetime : function(datetime){
 				if (datetime.type == 'datetime'){
-					
+
 				} else if(datetime.type == 'date') {
-					
+
 				} else if(datetime.type == 'time'){
-					
+
 				}
 				return false;
 			}
-			
+
 		},
-		
+
 		/**
 		 * URL
 		 **/
 		url : {
 			lastUpdate : '2016-4-14 23:50:41',
-			
+
 			/**
 			 * URL
 			 * @return string; 'http://www.xxx.com/xxx/xxx.html?a=1#b'
 			 **/
 			href : window.location.href,
-			
+
 			/**
 			 * 来自页
 			 * @return string; 'http://www.xxx.com/xxx/xxx.html'
 			 **/
 			referrer : document.referrer,
-			
+
 			/**
 			 * URL 中的域名
 			 * @param string url;
@@ -346,7 +347,7 @@
 				if(domain !== null) return domain.toString();
 				return null;
 			},
-			
+
 			/**
 			 * URL 中的端口
 			 * @param string url;
@@ -363,7 +364,7 @@
 				if (port !== null && port !== '' && port !== undefined) return port.toString();
 				return null;
 			},
-			
+
 			/**
 			 * URL 中的目录路径
 			 * @param string url;
@@ -382,7 +383,7 @@
 				}
 				return dirPath.toString();
 			},
-			
+
 			/**
 			 * URL 中的文件路径
 			 * @param string url;
@@ -401,7 +402,7 @@
 				}
 				return filePath.toString();
 			},
-			
+
 			/**
 			 * URL 中的文件名
 			 * @param string url;
@@ -414,7 +415,7 @@
 				fileName = filePath.match(/[\w.-]*$/i);
 				return fileName.toString();
 			},
-			
+
 			/**
 			 * 查询参数
 			 * @param string url;
@@ -431,7 +432,7 @@
 				}
 				return query;
 			},
-			
+
 			/**
 			 * URL 锚
 			 * @param string url;
@@ -444,7 +445,7 @@
 				if (fragment !== null) fragment = fragment[0].substring(1);
 				return fragment;
 			},
-			
+
 			/**
 			 * URL 参数值
 			 * @param string key, GET 参数键;
@@ -479,7 +480,7 @@
 					}
 				}
 			},
-			
+
 			/**
 			 * 解析指定 URL 并返回各部分信息
 			 * @param string url;
@@ -498,11 +499,11 @@
 				return {'domain': domain, 'port': port, 'filePath': filePath, 'dirPath': dirPath, 'fileName': fileName, 'query': query, 'fragment': fragment};
 			},
 		},
-		
+
 		// 检查
 		check : {
 			lastUpdate : '2016-4-26 20:37:57',
-			
+
 			/**
 			 * 验证字符串长度
 			 * @param string string;
@@ -518,7 +519,7 @@
 				}
 				return true;
 			},
-			
+
 			/**
 			 * 类型检查
 			 * @param string type, string | array | object | number | null | undefined | boolean;
@@ -532,25 +533,29 @@
 				}
 				return true;
 			},
-			
+
 			/**
-			 * IP ipv4 验证
-			 * @param string ip, IP地址;
-			 * @return mixed, false;
+			 * IP ipv4\v6 验证
+			 * @param object ip, {type: 'v4', address: '127.0.0.1'};
+			 * @return boolean;
 			 **/
 			ip : function(ip){
-				var ipArr = ip.split('.');
-				if (ipArr.length != 4){
-					return false;
-				}
-				for(var i in ipArr){
-					if (!this.number(ipArr[i]) || ipArr[i] > 255){
+				if (ip.type == 'v4'){
+					var ipArr = ip.split('.');
+					if (ipArr.length != 4){
 						return false;
 					}
+					for(var i in ipArr){
+						if (!this.number(ipArr[i]) || ipArr[i] > 255){
+							return false;
+						}
+					}
+					return true;
+				} else if (ip.type == 'v6'){
+
 				}
-				return true;
 			},
-			
+
 			/**
 			 * 验证电话号码
 			 * @param string number;
@@ -558,7 +563,7 @@
 			phone : function(number){
 				return false;
 			},
-			
+
 			/**
 			 * 字母
 			 * @param string letter;
@@ -571,7 +576,7 @@
 				}
 				return true;
 			},
-			
+
 			/**
 			 * 数字,正整数
 			 * @param string number;
@@ -584,7 +589,7 @@
 				}
 				return true;
 			},
-			
+
 			/**
 			 * 验证是否包含 HTML 标签 *M* 需要增加
 			 * @param string string;
@@ -593,7 +598,7 @@
 			containHtml : function(string){
 				return true;
 			},
-			
+
 			/**
 			 * 验证邮箱格式是否正确
 			 * @param string email;
@@ -610,7 +615,7 @@
 				if (!namePattern.test(name)) return false;
 				return true;
 			},
-			
+
 			/**
 			 * 验证域名格式
 			 * @param string domain;
@@ -621,7 +626,7 @@
 				var domainPattern = /^(([a-z0-9]+-?)*[a-z0-9]+\.)+([a-z]{2,})+$/i;
 				return domainPattern.test(domain);
 			},
-			
+
 			/**
 			 * 验证 URL 格式是否正确
 			 * @param string url;
@@ -635,11 +640,11 @@
 				} else if(type === 'https') {
 					urlPattern = /^https?:\/\/([a-z0-9-]+\.)+[a-z0-9-]+([a-z0-9-./?%&=]*)?$/i;
 				}
-				
+
 				if (!urlPattern.test(url)) return false;
 				return true;
 			},
-			
+
 			/**
 			 * 验证文件是否为图像后缀名 *M* 未测试
 			 * @param string fileName; 文件名
@@ -651,7 +656,7 @@
 				if (!imagePattern.test(fileName)) return false;
 				return true;
 			},
-			
+
 			/**
 			 * 验证值是否为空
 			 * @param val string; 需要验证的字符串
@@ -663,12 +668,12 @@
 				return false;
 			}
 		},
-		
+
 		cookie : {
 			lastUpdate : '2016-4-22 02:03:09',
 			enabled : navigator.cookieEnabled,
 			expireTime : 30*24*60*60*1000,
-			
+
 			/**
 			 * 设置 COOKIE
 			 * @param string cName, COOKIE 名称;
@@ -691,7 +696,7 @@
 				document.cookie = value+path+domain+'expires='+date.toGMTString();
 				return true;
 			},
-			
+
 			/**
 			 * 获取指定 COOKIE 的值
 			 * @param string cName; COOKIE 键名
@@ -705,7 +710,7 @@
 					if(temp[0] == cName) return unescape(temp[1]);
 				}
 			},
-			
+
 			/**
 			 * 获取所有 COOKIE 并以数组方式返回
 			 * @return array;
@@ -720,7 +725,7 @@
 				}
 				return reCookieArr;
 			},
-			
+
 			/**
 			 * 删除 COOKIE
 			 * @param string cName; COOKIE 键名
@@ -734,10 +739,10 @@
 				return true;
 			}
 		},
-		
+
 		datetime : {
 			lastUpdate : '2016-5-9 17:36:33',
-			
+
 			/** *M* 还需要详细修改
 			 * 获取客户端当前日期或时间戳
 			 * @param string type; 'datetime','datetimes','date','time'
@@ -792,7 +797,7 @@
 						break;
 					case 'hour':
 						datetime = h;
-						break;					
+						break;
 					case 'timestamp':
 						datetime = this.transformDatetimeToTimestamp(this.get('datetime'));
 						break;
@@ -802,7 +807,7 @@
 				}
 				return datetime;
 			},
-			
+
 			/**
 			 * 返回格林威治时间和本地时间之间的时差
 			 * @param string type; 小时、分、秒 h | i | s
@@ -831,7 +836,7 @@
 					return time;
 				}
 			},
-			
+
 			/**
 			 * 转换当前或指定日期为 UTC 协调世界时
 			 * @param string type, 需要转换为 UTC 日期时间的类型;
@@ -859,7 +864,7 @@
 					return y+'-'+m+'-'+d+' '+h+':'+i+':'+s;
 				}
 			},
-			
+
 			/**
 			 * 转换日期为时间戳
 			 * @param string datetime; 需要转换日期时间
@@ -879,7 +884,7 @@
 					return Math.floor(dateObj.getTime()/1000);
 				}
 			},
-			
+
 			/**
 			 * 返回到期日期 "天,小时,分,秒,毫秒" *M* 此处还可优化
 			 * @param int expireDatetime; 到期日期
@@ -910,7 +915,7 @@
 					clearTimeout(loop);
 				}
 			},
-			
+
 			/**
 			 * 按开始日期的时间戳以及设定的循环周期限制循环返回倒计时时间 *M* 此处还可优化
 			 * @param int startTimestamp; 开始日期时间戳
@@ -939,10 +944,10 @@
 				return [d, h, i, s, mi];
 			},
 		},
-		
+
 		notice : {
 			lastUpdate : '2016-4-25 00:44:34',
-			
+
 			/**
 			 * 载入等待
 			 **/
@@ -954,7 +959,7 @@
 				html = '<div style=""><div>'+content+'</div><div style=""></div></div>';
 				*/
 			},
-			
+
 			/**
 			 * 消息提示
 			 * @param string title, 标题;
@@ -970,7 +975,7 @@
 				html = '<div></div>';
 				*/
 			},
-			
+
 			/**
 			 * 确认消息提示
 			 * @param object text, 确认提示框的文字内容;
@@ -996,10 +1001,10 @@
 				*/
 			},
 		},
-		
+
 		string : {
 			lastUpdate : '2016-4-14 23:51:19',
-			
+
 			/**
 			 * 去除空格
 			 * @param string str;
@@ -1021,7 +1026,7 @@
  			},
 			escape2Html : function(str){
 				var arrEntities={'lt':'<','gt':'>','nbsp':' ','amp':'&','quot':'"'};
-				return str.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){return arrEntities[t];}); 
+				return str.replace(/&(lt|gt|nbsp|amp|quot);/ig,function(all,t){return arrEntities[t];});
 			},
 			// 转义字符防止 XSS
 			securityFiltering : function(value){
@@ -1045,10 +1050,10 @@
 				return str;
 			},
 		},
-		
+
 		file : {
 			lastUpdate : '2016-4-14 23:51:23',
-			
+
 			/**
 			 * 获取文件扩展名
 			 * @param string name; 文件名
@@ -1062,7 +1067,7 @@
 				return ext;
 			},
 		},
-		
+
 		/**
 		 * 编码
 		 **/
@@ -1082,7 +1087,7 @@
 					return false;
 				}
 			},
-			
+
 			unicode : function(string){
 				var testValue = string,
 					value = '';
@@ -1092,7 +1097,7 @@
 				return value;
 			}
 		},
-		
+
 		/**
 		 * 加密
 		 **/
@@ -1111,7 +1116,7 @@
 				return false;
 			},
 		},
-		
+
 		/**
 		 * 翻译与转换
 		 **/
@@ -1137,254 +1142,430 @@
 				return str;
 			}
 		},
-		
+
+    /**
+     * 色彩
+     **/
+    color : {
+    	lastUpdate : '2016-11-17 14:44:05',
+      /**
+       * 通过色彩名称返回Hue色调
+       **/
+      getHueFromText: function(text){
+        var h = '';
+      	switch(text){
+      		case '红':
+      			var r = M.other.genRandom(0, 100);
+      			if (r >= 50){
+      				h = M.other.genRandom(0, 30);
+      			} else {
+      				h = M.other.genRandom(330, 359);
+      			}
+      			break;
+      		case '黄':
+      			h = M.other.genRandom(30, 90);
+      			break;
+      		case '绿':
+      			h = M.other.genRandom(90, 150);
+      			break;
+      		case '青':
+      			h = M.other.genRandom(150, 210);
+      			break;
+      		case '蓝':
+      			h = M.other.genRandom(210, 270);
+      			break;
+      		case '紫':
+      			h = M.other.genRandom(270, 330);
+      			break;
+      	}
+      	return h;
+      },
+      /**
+       * 通过HSV、HSL色相环转换色彩名称
+       */
+      colorName: function(hsv){
+      	var colorName = [],
+          h = hsv[0] ? hsv[0] : 0,
+          s = hsv[1] ? hsv[1] : 0,
+          v = hsv[2] ? hsv[2] : 0;
+
+        colorName['depth'] =  v >= 60 ? '浅' : '深';
+        colorName['brightness'] = v >= 50 ? '明亮' : '深暗';
+
+      	if (v == 0) {
+      		colorName['main'] = '黑';
+      		colorName['sub'] = '黑';
+      	} else if(s == 0 && v == 100) {
+      		colorName['main'] = '白';
+      		colorName['sub'] = '白';
+      	} else if(s == 0) {
+      		colorName['main'] = '灰';
+          colorName['sub'] = '灰';
+      	} else if ( h <= 30 ) {
+      		colorName['main'] = '红';
+      		if (h <= 10){
+      		    colorName['sub'] = '红';
+      		} else if (h <= 20){
+      			colorName['sub'] = '橘红';
+      		} else {
+      			colorName['sub'] = '橙';
+      		}
+      	} else if ( h > 30 && h <= 90 ) {
+      		colorName['main'] = '黄';
+      		if (h < 40){
+      		    colorName['sub'] = '橙';
+      		} else if ( h < 50){
+      			colorName['sub'] = '橘黄';
+      		} else if( h > 70 ) {
+      			colorName['sub'] = '绿黄';
+      		} else {
+      			colorName['sub'] = '黄';
+      		}
+      	} else if ( h > 90 && h <= 150 ) {
+      		colorName['main'] = '绿';
+      		if ( h < 110){
+      			colorName['sub'] = '黄绿';
+      		} else if( h > 130 ) {
+      			colorName['sub'] = '青绿';
+      		} else {
+      			colorName['sub'] = '绿';
+      		}
+      	} else if ( h > 150 && h <= 210 ) {
+      		colorName['main'] = '青';
+      		if ( h < 170){
+      			colorName['sub'] = '绿青';
+      		} else if(h > 190) {
+      			colorName['sub'] = '蓝青';
+      		} else {
+      			colorName['sub'] = '青';
+      		}
+      	} else if ( h > 210 && h <= 270 ) {
+      		// 220 - 260
+      		colorName['main'] = '蓝';
+      		if ( h < 230){
+      			colorName['sub'] = '青蓝';
+      		} else if(h > 250) {
+      			colorName['sub'] = '紫蓝';
+      		} else {
+      			colorName['sub'] = '蓝';
+      		}
+      	} else if ( h < 330 ) {
+      		colorName['main'] = '紫';
+      		if ( h < 290){
+      			colorName['sub'] = '蓝紫';
+      		} else if(h > 310){
+      			colorName['sub'] = '红紫';
+      		} else {
+      			colorName['sub'] = '紫';
+      		}
+      	} else {
+      		colorName['main'] = '红';
+      		if ( h < 350){
+      			colorName['sub'] = '紫红';
+      		} else {
+      			colorName['sub'] = '红';
+      		}
+      	}
+      	// 增加灰色
+      	if (colorName['main'] != '黑' && colorName['main'] != '白' && colorName['main'] != '灰'){
+      		if (s < 10){
+          	    colorName['sub'] = '灰'+colorName['sub'];
+          	}
+      	}
+      	return colorName;
+      },
+
+    	/**
+    	 * HEX 转 RGB
+    	 * @param string hex, #fff;
+    	 * @return array;
+    	 **/
+    	hex2rbg : function(hex){
+    		hex = hex.charAt(0) === "#" ? hex.substring(1, 7) : hex;
+    		var r = parseInt(hex.substring(0, 2), 16);
+    		var g = parseInt(hex.substring(2, 4), 16);
+    		var b = parseInt(hex.substring(4, 6), 16);
+    		return [r, g ,b];
+    	},
+      /**
+       * RGB 转 RYB
+       * @param arry rgb, [255,255,255];
+       * @return array;
+       **/
+      rgb2ryb: function(rgb){
+        var r = rgb[0],
+        g = rgb[1],
+        b = rgb[2];
+
+        var w = Math.min(r, g, b);
+        r -= w;
+        g -= w;
+        b -= w;
+
+        var mg = Math.max(r, g, b);
+
+        // Get the yellow out of the red+green.
+        var y = Math.min(r, g);
+        r -= y;
+        g -= y;
+
+        // If this unfortunate conversion combines blue and green, then cut each in
+        // half to preserve the value's maximum range.
+        if (b && g) {
+          b /= 2.0;
+          g /= 2.0;
+        }
+
+        // Redistribute the remaining green.
+        y += g;
+        b += g;
+
+        // Normalize to values.
+        var my = Math.max(r, y, b),
+          n = '';
+        if (my) {
+          n = mg/my;
+          r *= n;
+          y *= n;
+          b *= n;
+        }
+
+        // Add the white back in.
+        r += w;
+        y += w;
+        b += w;
+
+        // And return back the ryb typed accordingly.
+        return [255-r, 255-y, 255-b];
+      },
+    	/**
+    	 * HEX 转 CMYK;
+    	 * @param string hex, #fff;
+    	 * @return array;
+    	 **/
+    	hex2cmyk : function(hex) {
+    		var computedC = 0;
+    		var computedM = 0;
+    		var computedY = 0;
+    		var computedK = 0;
+
+    		hex = (hex.charAt(0)==="#") ? hex.substring(1,7) : hex;
+
+    		if (hex.length !== 6) {
+    			alert ('HEX 长度无效!');
+    			return;
+    		}
+    		if (/[0-9a-f]{6}/i.test(hex) !== true) {
+    			alert ('无效的的 HEX 数字!');
+    			return;
+    		}
+
+    		var r = parseInt(hex.substring(0,2),16);
+    		var g = parseInt(hex.substring(2,4),16);
+    		var b = parseInt(hex.substring(4,6),16);
+
+    		// BLACK
+    		if (r===0 && g===0 && b===0) {
+    			computedK = 1;
+    			return [0,0,0,1];
+    		}
+
+    		computedC = 1 - (r/255);
+    		computedM = 1 - (g/255);
+    		computedY = 1 - (b/255);
+
+    		var minCMY = Math.min(computedC,Math.min(computedM,computedY));
+
+    		computedC = (computedC - minCMY) / (1 - minCMY) ;
+    		computedM = (computedM - minCMY) / (1 - minCMY) ;
+    		computedY = (computedY - minCMY) / (1 - minCMY) ;
+    		computedK = minCMY;
+
+    		return [computedC,computedM,computedY,computedK];
+    	},
+
+    	/**
+    	 * HEX 转 HSL;
+    	 * @param string hex, #fff;
+    	 * @return array;
+    	 **/
+    	hex2hsl : function(hex) {
+    	},
+
+    	/**
+    	 * HEX 转 HSV(B);
+    	 * @param string hex, #fff;
+    	 * @return array;
+    	 **/
+    	hex2hsv : function(hex) {
+        var rgb = this.hex2rbg(hex);
+        return this.rgb2hsv(rgb);
+    	},
+
+    	/**
+    	 * Hex 转 XYZ
+    	 **/
+    	hex2xyz : function(){
+    	},
+
+    	/**
+    	 * RGB 转 HSV
+    	 * @param array rgb, [r,g,b]
+    	 * @return array [h,s,v]
+    	 **/
+    	rgb2hsv: function ( rgb ) {
+    		var r = rgb[ 0 ],
+    			g = rgb[ 1 ],
+    			b = rgb[ 2 ],
+    			min = Math.min( r, g, b ),
+    			max = Math.max( r, g, b ),
+    			delta = max - min,
+    			h, s, v;
+    		if ( max === 0 ) {
+    			s = 0;
+    		} else {
+    			s = ( delta / max * 100 );
+    		}
+    		if ( max === min ) {
+    			h = 0;
+    		} else if ( r === max ) {
+    			h = ( g - b ) / delta;
+    		} else if ( g === max ) {
+    			h = 2 + ( b - r ) / delta;
+    		} else if ( b === max ) {
+    			h = 4 + ( r - g ) / delta;
+    		}
+    		h = Math.min( h * 60, 360 );
+    		if ( h < 0 ) {
+    			h += 360;
+    		}
+    		v = ( ( max / 255 ) * 1000 ) / 10;
+    		return [ h, s, v ];
+    	},
+      hsv2hex: function(hsv){
+        var rgb = this.hsv2rgb(hsv);
+        return this.rgb2hex(rgb);
+      },
+    	/**
+    	 * HSV 转 RGB
+    	 * @param int hue;
+    	 * @param int saturation;
+    	 * @param int value;
+    	 * @return array rgb [r,g,b];
+    	 **/
+    	hsv2rgb : function(hsv){
+        var h = hsv[0],
+            s = hsv[1],
+            v = hsv[2];
+    		h = h / 60;
+    		s = s / 100;
+    		v = v / 100;
+    		var hi = Math.floor(h) % 6;
+
+    		var f = h - Math.floor(h);
+    		var p = 255 * v * (1 - s);
+    		var q = 255 * v * (1 - (s * f));
+    		var t = 255 * v * (1 - (s * (1 - f)));
+    		v *= 255;
+
+    		switch(hi) {
+    			case 0:
+    				return [v, t, p];
+    			case 1:
+    				return [q, v, p];
+    			case 2:
+    				return [p, v, t];
+    			case 3:
+    				return [p, q, v];
+    			case 4:
+    				return [t, p, v];
+    			case 5:
+    				return [v, p, q];
+    		}
+    	},
+
+    	/**
+    	 * RGB 转 HEX
+    	 * @param int r;
+    	 * @param int g;
+    	 * @param int b;
+    	 **/
+    	rgb2hex : function(rgb){
+        var r = rgb[0],
+          g = rgb[1],
+          b = rgb[2];
+    		var r = (r<0 ? 0 : (r>255 ? 255 : r)).toString(16),
+    		g = (g<0 ? 0 : (g>255 ? 255 : g)).toString(16),
+    		b = (b<0 ? 0 : (b>255 ? 255 : b)).toString(16);
+    		var color = (r.length < 2 ? '0' : '')+r;
+    		color += (g.length < 2 ? '0' : '')+g;
+    		color += (b.length < 2 ? '0' : '')+b;
+    		return color.toUpperCase();
+    	}
+    },
+
 		/**
-		 * 色彩
-		 **/
-		color : {
-			lastUpdate : '2016-11-17 14:44:05',
-
-			/**
-			 * HEX 转 RGB
-			 * @param string hex, #fff;
-			 * @return array;
-			 **/
-			hex2rbg : function(hex){
-				hex = hex.charAt(0) === "#" ? hex.substring(1, 7) : hex;
-				var r = parseInt(hex.substring(0, 2), 16);
-				var g = parseInt(hex.substring(2, 4), 16);
-				var b = parseInt(hex.substring(4, 6), 16);
-				return [r, g ,b];
-			},
-			
-			/**
-			 * HEX 转 CMYK;
-			 * @param string hex, #fff;
-			 * @return array;
-			 **/
-			hex2cmyk : function(hex) {
-				var computedC = 0;
-				var computedM = 0;
-				var computedY = 0;
-				var computedK = 0;
-				
-				hex = (hex.charAt(0)==="#") ? hex.substring(1,7) : hex;
-				
-				if (hex.length !== 6) {
-					alert ('HEX 长度无效!');
-					return;
-				}
-				if (/[0-9a-f]{6}/i.test(hex) !== true) {
-					alert ('无效的的 HEX 数字!');
-					return; 
-				}
-				
-				var r = parseInt(hex.substring(0,2),16); 
-				var g = parseInt(hex.substring(2,4),16); 
-				var b = parseInt(hex.substring(4,6),16); 
-				
-				// BLACK
-				if (r===0 && g===0 && b===0) {
-					computedK = 1;
-					return [0,0,0,1];
-				}
-				
-				computedC = 1 - (r/255);
-				computedM = 1 - (g/255);
-				computedY = 1 - (b/255);
-				
-				var minCMY = Math.min(computedC,Math.min(computedM,computedY));
-				
-				computedC = (computedC - minCMY) / (1 - minCMY) ;
-				computedM = (computedM - minCMY) / (1 - minCMY) ;
-				computedY = (computedY - minCMY) / (1 - minCMY) ;
-				computedK = minCMY;
-				
-				return [computedC,computedM,computedY,computedK];
-			},
-			
-			/**
-			 * HEX 转 HSL;
-			 * @param string hex, #fff;
-			 * @return array;
-			 **/
-			hex2hsl : function(hex) {
-			},
-			
-			/**
-			 * HEX 转 HSV(B);
-			 * @param string hex, #fff;
-			 * @return array;
-			 **/
-			hex2hsv : function(hex) {
-			},
-			
-			/**
-			 * Hex 转 XYZ
-			 **/
-			hex2xyz : function(){
-			},
-			
-			/**
-			 * RGB 转 HSV
-			 * @param array rgb, [r,g,b]
-			 * @return array [h,s,v]
-			 **/
-			rgb2hsv: function ( rgb ) {
-				var r = rgb[ 0 ],
-					g = rgb[ 1 ],
-					b = rgb[ 2 ],
-					min = Math.min( r, g, b ),
-					max = Math.max( r, g, b ),
-					delta = max - min,
-					h, s, v;
-
-				if ( max === 0 ) {
-					s = 0;
-				} else {
-					s = ( delta / max * 100 );
-				}
-
-				if ( max === min ) {
-					h = 0;
-				} else if ( r === max ) {
-					h = ( g - b ) / delta;
-				} else if ( g === max ) {
-					h = 2 + ( b - r ) / delta;
-				} else if ( b === max ) {
-					h = 4 + ( r - g ) / delta;
-				}
-
-				h = Math.min( h * 60, 360 );
-
-				if ( h < 0 ) {
-					h += 360;
-				}
-
-				v = ( ( max / 255 ) * 1000 ) / 10;
-
-				return [ h, s, v ];
-			},
-			
-			/**
-			 * HSV 转 RGB
-			 * @param int hue;
-			 * @param int saturation;
-			 * @param int value;
-			 * @return array rgb [r,g,b];
-			 **/
-			hsv2rgb : function(hue, saturation, value){
-				var hi, f, p, q, t;
-				while (hue < 0) {
-					hue += 360;
-				}
-				hue = hue%360;
-			
-				saturation = saturation < 0 ? 0
-					: saturation > 1 ? 1
-					: saturation;
-			
-				value = value < 0 ? 0
-					: value > 1 ? 1
-					: value;
-			
-				value *= 255;
-					hi = (hue/60 | 0)%6;
-					f = hue/60 - hi;
-					p = value*(1-saturation) | 0;
-					q = value*(1-f*saturation) | 0;
-					t = value*(1-(1-f)*saturation) | 0;
-				value |= 0;
-			
-				switch (hi) {
-					case 0:
-						return [value, t, p];
-					case 1:
-						return [q, value, p];
-					case 2:
-						return [p, value, t];
-					case 3:
-						return [p, q, value];
-					case 4:
-						return [t, p, value];
-					case 5:
-						return [value, p, q];
-				}
-			},
-			
-			/**
-			 * RGB 转 HEX
-			 * @param int r;
-			 * @param int g;
-			 * @param int b;
-			 **/
-			rgb2hex : function(r, g, b){
-				var r = (r<0 ? 0 : (r>255 ? 255 : r)).toString(16),
-				g = (g<0 ? 0 : (g>255 ? 255 : g)).toString(16),
-				b = (b<0 ? 0 : (b>255 ? 255 : b)).toString(16);
-				var color = (r.length < 2 ? '0' : '')+r;
-				color += (g.length < 2 ? '0' : '')+g;
-				color += (b.length < 2 ? '0' : '')+b;
-				return color.toUpperCase();
-			}
-		},
-		
-		/**
-		 * 多媒体
+		 * 音视频
 		 **/
 		media : {
 			lastUpdate : '2017-12-30 17:06:40',
 			audio : {
 				// 播放
 				aPlay : function(){
-					
+
 				},
 				// 停止
 				aStop : function(){
-					
+
 				},
 				// 初始化
 				aInit : function(){
-					
+
 				}
 			},
-			
+
 			video : {
 				// 播放
 				aPlay : function(){
-					
+
 				},
 				// 停止
 				aStop : function(){
-					
+
 				},
 				// 初始化
 				aInit : function(){
-					
+
 				}
 			}
 		},
-		
+
 		/**
 		 * 利用Localstorage进行缓存
 		 **/
 		cache : {
 			lastUpdate : '2017-12-30 17:05:40',
+      get : function(){
+      },
+      set : function(){
+      },
+      clear : function(){
+      }
 		},
-		
+
 		/**
 		 * HTML5 localstorage 本地存储
 		 **/
 		storage: {
 			lastUpdate : '2017-12-30 13:51:27',
-			
+
 			test : function(){
 				if (!window.localStorage){
 					return false;
 				}
 				return true;
 			},
-			
+
 			length : localStorage.length,
 			set : function(name, value){
 				value = M.string.securityFiltering(value);
@@ -1403,13 +1584,13 @@
 				return window.localStorage.key();
 			},
 		},
-		
+
 		/**
 		 * 其它
 		 **/
 		other : {
 			lastUpdate : '2016-4-14 23:51:27',
-			
+
 			/**
 			 * 倒计时并重定向
 			 * @param string url; e.g.'http://www.xxx.com'
@@ -1420,7 +1601,7 @@
 				setTimeout(function(){window.location.href=url;}, ms);
 				return;
 			},
-			
+
 			/**
 			 * 文件名后缀
 			 * @param string filename, 文件名;
@@ -1432,7 +1613,7 @@
 				ext = ext.toLocaleLowerCase();
 				return ext;
 			},
-			
+
 			/**
 			 * 补零
 			 * @param string or number;
@@ -1449,7 +1630,7 @@
 				}
 				return str;
 			},
-			
+
 			/**
 			 * 倒计时重定向并显示时间
 			 * @param string url; e.g 'http://www.xxx.com'
@@ -1468,17 +1649,17 @@
 					M.other.countdownRedirectAndDisplayTime(url, time);
 				}, 1000);
 			},
-			
+
 			/**
 			 * 循环执行
 			 * @param object func;
 			 * @param int ms; 1000ms = 1s
-			 * @return null; 
+			 * @return null;
 			 **/
 			loopRun : function(func, time){
 				setTimeout(func, time);
 			},
-			
+
 			/**
 			 * 弹出新窗口并重定向当前页
 			 * @param string openUrl;
@@ -1490,22 +1671,22 @@
 				window.location.href = redirectUrl;
 				return;
 			},
-			
+
 			/**
 			 * 转换存储容量单位
 			 * @param int size; Byte
 			 * @return string;
 			 **/
 			conversionSize : function(size){
-				var units = ['B', 'KB', 'MB', 'GB', 'TB'];
-				for (var i=0; size>=1024 && i<4; i++){
+				var units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+				for (var i=0; size>=1024 && i<5; i++){
 					size /= 1024;
 				}
 				size = Math.round(size*100);
 				size /= 100;
 				return size+' '+units[i];
 			},
-			
+
 			/**
 			 * 生成指定范围内随机数
 			 * @param int lowerValue; 最小值
@@ -1516,7 +1697,7 @@
 				var choices = upperValue-lowerValue+1;
 				return Math.floor(Math.random()*choices+lowerValue);
 			},
-			
+
 			/**
 			 * 刷新验证码
 			 * @param string id; 验证码 DOM ID
@@ -1527,7 +1708,7 @@
 				var randoms = Math.random();
 				document.getElementById(id).src = captchaUrl+'&r='+randoms;
 			},
-			
+
 			/**
 			 * 创建随机密码
 			 * @param int grade; 密码强度等级 1|2|3
@@ -1541,7 +1722,7 @@
 					symbol = '!@#$%^&*() -_=+{}[]|\/:;<>?,.\'"',
 					password = '';
 				grade = grade > 0 && grade <= 3 ? grade : 3;
-				length = length > 0 ? length : 12;				
+				length = length > 0 ? length : 12;
 				for(var i=0; i<length; i++){
 					if (i === 0){
 						if (grade > 1){
@@ -1562,7 +1743,7 @@
 				}
 				return password;
 			},
-			
+
 			/**
 			 * 检查密码强度,长度,数字,小写字母,大写字母,符号
 			 * @param string password; 密码;
@@ -1582,7 +1763,7 @@
 				if (passwordPattern.test(password)) strength += 1;
 				return strength;
 			},
-			
+
 			/**
 			 * 图片预加载，与 CSS Sprites 不冲突
 			 * @param array image; ['./1.jpg', '2.png', '3.gif']
@@ -1596,16 +1777,16 @@
 			},
 		}
 	};
-	
-	window.M = M;
-})();
 
-(function(){
+	window.M = M;
+})(window);
+
+(function(window){
 	"use strict";
 	var M_2_0 = {
 	};
 	window.M_2_0 = M_2_0;
-})();
+})(window);
 
 /**
  * 你可以在此基础上进行补充或增加新版本，然后按照版本号加载多版本以实现扩展或多版本兼容。
@@ -1621,3 +1802,5 @@ function Mjs(ver){
 		return M;
 	}
 }
+
+console.log('https://github.com/520internet/m.js');
