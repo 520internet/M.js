@@ -1,7 +1,7 @@
 
 /**
  * JavaScript Document
- * @如果你优化、修复、补充了任何希望你可以发送邮件至 webmaster@520internet.com
+ * 作者：亮
  * 以下部分代码片段来源于网络！你可以自由复制拷贝使用！
  * https://github.com/520internet/m.js
  **/
@@ -247,7 +247,7 @@
 			lastupdate : '2016-4-28 01:16:32',
 
 			/**
-			 * IP验证
+			 * IP验证，拷贝开源代码
 			 * @param string ip;
 			 * @return boolean;
 			 **/
@@ -274,7 +274,7 @@
 			},
 
 			/**
-			 * 邮箱验证
+			 * 邮箱验证，拷贝开源代码加以修改
 			 * @param string email;
 			 * @return boolean;
 			 **/
@@ -1003,6 +1003,9 @@
 		},
 
 		string : {
+			/**
+			 * 部分为拷贝开源代码
+			 **/
 			lastUpdate : '2016-4-14 23:51:19',
 
 			/**
